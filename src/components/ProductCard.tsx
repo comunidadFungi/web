@@ -28,11 +28,14 @@ export default function ProductCard({ product, isLoggedIn }: Props) {
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-6xl">🍄</div>
+          <div className="w-full h-full flex items-center justify-center text-6xl">
+            {product.category === 'Aceites' ? '🫗' : '🍄'}
+          </div>
         )}
 
         <div className={`absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-full font-medium z-10 ${
-          product.category === 'Macrodosis' ? 'bg-[#C4513A]' : 'bg-[#6B8F71]'
+          product.category === 'Macrodosis' ? 'bg-[#C4513A]' :
+          product.category === 'Aceites'    ? 'bg-[#C8923A]' : 'bg-[#6B8F71]'
         }`}>
           {product.category}
         </div>

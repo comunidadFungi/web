@@ -1,6 +1,6 @@
 'use client'
 
-const WHATSAPP_NUMBER = '56900000000' // reemplazar con número real
+const WHATSAPP_NUMBER = '56940547049'
 const WHATSAPP_MESSAGE = '¡Hola! Tengo una consulta sobre los productos de Comunidad Fungi 🍄'
 
 export default function WhatsAppButton() {
