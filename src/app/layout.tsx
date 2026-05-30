@@ -8,7 +8,7 @@ import { CartProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
   title: "Comunidad Fungi | Cultivo de Hongos en Chile",
-  description: "Kits de cultivo, hongos gourmet e insumos para cultivadores. Únete a la comunidad fungi de Chile.",
+  description: "Asociación dedicada al cultivo y abastecimiento de hongos y plantas medicinales.",
   icons: {
     icon: "/logo.jpeg",
     apple: "/logo.jpeg",
