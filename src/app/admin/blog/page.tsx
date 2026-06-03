@@ -1,9 +1,9 @@
-import { createAdminClient } from '@/lib/supabase-admin'
+import { createClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { PlusCircle, PencilSimple } from '@phosphor-icons/react/dist/ssr'
 
 export default async function AdminBlogPage() {
-  const supabase = createAdminClient()
+  const supabase = await createClient()
   const { data: posts } = await supabase
     .from('blog_posts')
     .select('id, title, slug, category, published, created_at')

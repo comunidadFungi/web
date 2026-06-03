@@ -1,4 +1,4 @@
-import { createAdminClient } from '@/lib/supabase-admin'
+import { createClient } from '@/lib/supabase-server'
 import OrderStatusSelect from './OrderStatusSelect'
 
 const STATUS_LABELS: Record<string, string> = {
@@ -15,7 +15,7 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 export default async function PedidosPage() {
-  const supabase = createAdminClient()
+  const supabase = await createClient()
   const { data: orders } = await supabase
     .from('orders')
     .select('*')
