@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import { CheckCircle, XCircle } from '@phosphor-icons/react/dist/ssr'
 
 export default async function UsuariosPage() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data: docs } = await supabase
     .from('user_documents')
     .select('*')

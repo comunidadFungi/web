@@ -1,9 +1,9 @@
-import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import { Article, ShoppingCart, Users, Eye } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 
 export default async function AdminDashboard() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const [
     { count: totalPosts },

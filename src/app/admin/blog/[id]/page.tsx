@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import { notFound } from 'next/navigation'
 import BlogEditor from '../BlogEditor'
 import Link from 'next/link'
@@ -6,7 +6,7 @@ import { ArrowLeft } from '@phosphor-icons/react/dist/ssr'
 
 export default async function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data: post } = await supabase.from('blog_posts').select('*').eq('id', id).single()
   if (!post) notFound()
 
