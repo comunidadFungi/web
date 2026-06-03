@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import { notFound } from 'next/navigation'
 import ProductoEditor from '../ProductoEditor'
 
 export default async function EditarProductoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data } = await supabase.from('products').select('*').eq('id', id).single()
 
   if (!data) notFound()
