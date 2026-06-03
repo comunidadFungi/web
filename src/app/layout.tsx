@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   title: "Comunidad Fungi | Cultivo de Hongos en Chile",
   description: "Asociación dedicada al cultivo y abastecimiento de hongos y plantas medicinales.",
   icons: {
-    icon: "/logo.jpeg",
+    icon: [
+      { url: "/logo.jpeg", type: "image/jpeg" },
+    ],
+    shortcut: "/logo.jpeg",
     apple: "/logo.jpeg",
   },
 };
