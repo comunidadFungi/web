@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { PlusCircle, PencilSimple } from '@phosphor-icons/react/dist/ssr'
 import { formatPrice } from '@/lib/products'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminProductosPage() {
   const supabase = createAdminClient()
   const { data: productos } = await supabase
