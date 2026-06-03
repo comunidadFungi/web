@@ -4,16 +4,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
-  House, Article, ShoppingCart, Users, SignOut,
+  House, Article, ShoppingCart, Users, SignOut, Plant,
 } from '@phosphor-icons/react'
 import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
 const nav = [
-  { href: '/admin',          label: 'Dashboard',  Icon: House },
-  { href: '/admin/blog',     label: 'Blog',        Icon: Article },
-  { href: '/admin/pedidos',  label: 'Pedidos',     Icon: ShoppingCart },
-  { href: '/admin/usuarios', label: 'Usuarios',    Icon: Users },
+  { href: '/admin',             label: 'Dashboard',  Icon: House },
+  { href: '/admin/productos',   label: 'Productos',  Icon: Plant },
+  { href: '/admin/blog',        label: 'Blog',       Icon: Article },
+  { href: '/admin/pedidos',     label: 'Pedidos',    Icon: ShoppingCart },
+  { href: '/admin/usuarios',    label: 'Usuarios',   Icon: Users },
 ]
 
 export default function AdminSidebar() {
