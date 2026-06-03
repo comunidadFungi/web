@@ -20,11 +20,14 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
       setError('Email o contraseña incorrectos.')
     } else {
-      router.push('/productos')
+      const params = new URLSearchParams(window.location.search)
+      const next = params.get('next')
+      const isAdmin = data.user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL
+      router.push(next ?? (isAdmin ? '/admin' : '/productos'))
     }
     setLoading(false)
   }
