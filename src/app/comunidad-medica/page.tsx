@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Stethoscope, ArrowRight, WhatsappLogo } from '@phosphor-icons/react/dist/ssr'
 
-const LAR_URL = 'https://www.lar.cl/asesoria-medica.html?fbclid=PAT01DUASD8oBleHRuA2FlbQIxMABzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAadI77anVUoO35_SG72TSmABBUUrMN0Vi4JfyHjeWP7XL9AwakRE9FxEW-crnQ_aem_WxFDej71PPX179XMQTwKew'
+const LAR_URL = 'https://beta-sacmed.novacaribe.com/reservaonline/11311'
 
 export default function ComunidadMedicaPage() {
   return (
@@ -12,10 +12,10 @@ export default function ComunidadMedicaPage() {
           src="/images/1. Comunidad Fungi/WEB Imagenes/Comunidad Medica/Hongo 6.webp"
           alt="Consultas médicas"
           fill
-          className="object-cover opacity-35"
+          className="object-cover opacity-60"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#4A1E0A]/70 via-[#4A1E0A]/50 to-[#4A1E0A]/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#4A1E0A]/45 via-[#4A1E0A]/30 to-[#4A1E0A]/65" />
         <div className="relative z-10">
           <p className="text-[#C8923A] text-xs font-medium tracking-[0.3em] uppercase mb-4">Red de apoyo</p>
           <h1 className="font-display text-5xl md:text-6xl font-bold mb-5">Consultas Médicas</h1>

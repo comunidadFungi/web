@@ -4,9 +4,10 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
-  ShieldCheck, ArrowLeft, Stethoscope, WhatsappLogo
+  ShieldCheck, ArrowLeft, Stethoscope, ShoppingCartSimple, CheckCircle, WhatsappLogo
 } from '@phosphor-icons/react'
 import { Product, ProductVariant } from '@/types'
+import { useCart } from '@/context/CartContext'
 
 function Dots({ value }: { value: number }) {
   return (
@@ -23,6 +24,8 @@ export default function ProductDetail({ product }: { product: Product }) {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
     product.variants?.[0] ?? null
   )
+  const [added, setAdded] = useState(false)
+  const { addItem } = useCart()
 
   const images = product.images?.length ? product.images : [product.image]
   const displayPrice = selectedVariant?.price ?? product.price
@@ -31,6 +34,12 @@ export default function ProductDetail({ product }: { product: Product }) {
     `Hola, me interesa ${product.name}${selectedVariant ? ` — ${selectedVariant.label}` : ''}. ¿Podrían indicarme los pasos para solicitarlo con mi receta médica?`
   )
   const waUrl = `https://wa.me/56940547049?text=${waText}`
+
+  function handleAddToCart() {
+    addItem({ ...product, price: displayPrice })
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2000)
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -163,20 +172,33 @@ export default function ProductDetail({ product }: { product: Product }) {
             )
           })()}
 
-          {/* CTA — Pedir por WhatsApp */}
+          {/* CTA — Agregar al carrito */}
+          <button
+            onClick={handleAddToCart}
+            className="w-full flex items-center justify-center gap-3 bg-[#C4513A] text-white py-4 rounded-xl font-medium text-lg hover:bg-[#A83D28] transition-colors shadow-md mb-3"
+          >
+            {added
+              ? <><CheckCircle weight="fill" size={24} /> Agregado al carrito</>
+              : <><ShoppingCartSimple weight="fill" size={24} /> Agregar al carrito</>
+            }
+          </button>
+          {added && (
+            <Link
+              href="/carrito"
+              className="w-full flex items-center justify-center text-sm text-[#C4513A] font-medium hover:underline"
+            >
+              Ver carrito →
+            </Link>
+          )}
           <a
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-3 bg-[#25D366] text-white py-4 rounded-xl font-medium text-lg hover:bg-[#1ebe5d] transition-colors shadow-md mb-3"
+            className="w-full flex items-center justify-center gap-3 bg-[#25D366] text-white py-4 rounded-xl font-medium text-lg hover:bg-[#1ebe5d] transition-colors shadow-md mt-1"
           >
             <WhatsappLogo weight="fill" size={24} />
             Solicitar por WhatsApp
           </a>
-          <p className="text-center text-xs text-[#7A3B1E] leading-relaxed">
-            Al hacer tu pedido deberás presentar tu receta médica vigente.
-            Nuestro equipo verificará y coordinará el despacho contigo.
-          </p>
 
           {/* Link a comunidad médica */}
           <div className="mt-5 pt-5 border-t border-[#E8D5B5] text-center">

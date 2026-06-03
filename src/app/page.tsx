@@ -63,14 +63,9 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section className="relative h-[90vh] min-h-[600px] flex items-center justify-center text-[#F5ECD7] overflow-hidden">
         <HeroSlider />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-[#4A1E0A]/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-[#4A1E0A]/65" />
 
-        {/* Floating decorative element */}
-        <div className="absolute right-8 bottom-24 opacity-8 animate-float hidden lg:block pointer-events-none select-none">
-          <span className="text-[200px] leading-none">🍄</span>
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+<div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <p className="animate-fade-in-up text-[#C8923A] text-xs font-medium tracking-[0.4em] uppercase mb-5">
             Bienvenido a
           </p>

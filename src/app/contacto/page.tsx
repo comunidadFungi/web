@@ -89,8 +89,8 @@ export default function ContactoPage() {
               </div>
               <div>
                 <p className="font-semibold text-[#4A1E0A]">Email</p>
-                <a href="mailto:contacto@comunidadfungi.cl" className="text-[#C4513A] text-sm hover:underline">
-                  contacto@comunidadfungi.cl
+                <a href="mailto:hola@comunidadfungi.com" className="text-[#C4513A] text-sm hover:underline">
+                  hola@comunidadfungi.com
                 </a>
               </div>
             </div>

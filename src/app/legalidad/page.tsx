@@ -11,10 +11,10 @@ export default function LegalidadPage() {
           src="/images/1. Comunidad Fungi/WEB Imagenes/Legalidad/Hongo 3.webp"
           alt="Legalidad"
           fill
-          className="object-cover opacity-30"
+          className="object-cover opacity-55"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#4A1E0A]/65 via-[#4A1E0A]/50 to-[#4A1E0A]/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#4A1E0A]/45 via-[#4A1E0A]/30 to-[#4A1E0A]/65" />
         <div className="relative z-10">
           <p className="text-[#C8923A] text-xs font-medium tracking-[0.3em] uppercase mb-4">Marco legal</p>
           <h1 className="font-display text-5xl md:text-6xl font-bold mb-5">Legalidad</h1>

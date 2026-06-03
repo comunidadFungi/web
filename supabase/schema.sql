@@ -19,17 +19,23 @@ create table if not exists blog_posts (
 
 -- Pedidos / Órdenes
 create table if not exists orders (
-  id          uuid default gen_random_uuid() primary key,
-  user_id     uuid references auth.users(id) on delete set null,
-  user_email  text,
-  items       jsonb not null default '[]',
-  total       integer not null default 0,
-  status      text not null default 'pending'
-                check (status in ('pending','processing','completed','cancelled')),
-  notes       text,
-  created_at  timestamptz default now(),
-  updated_at  timestamptz default now()
+  id                 uuid default gen_random_uuid() primary key,
+  user_id            uuid references auth.users(id) on delete set null,
+  user_email         text,
+  items              jsonb not null default '[]',
+  total              integer not null default 0,
+  status             text not null default 'pending'
+                       check (status in ('pending','processing','completed','cancelled')),
+  external_reference text unique,
+  mp_payment_id      text,
+  notes              text,
+  created_at         timestamptz default now(),
+  updated_at         timestamptz default now()
 );
+
+-- Agregar columnas si la tabla ya existe (migraciones)
+alter table orders add column if not exists external_reference text unique;
+alter table orders add column if not exists mp_payment_id text;
 
 -- Documentos de usuario
 create table if not exists user_documents (

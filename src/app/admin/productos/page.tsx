@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase-server'
+import { createAdminClient } from '@/lib/supabase-admin'
 import Link from 'next/link'
 import { PlusCircle, PencilSimple } from '@phosphor-icons/react/dist/ssr'
 import { formatPrice } from '@/lib/products'
 
 export default async function AdminProductosPage() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data: productos } = await supabase
     .from('products')
     .select('id, name, category, price, stock, access, active')

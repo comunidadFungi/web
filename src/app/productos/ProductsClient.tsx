@@ -23,10 +23,10 @@ export default function ProductsClient({ allProducts, isLoggedIn }: { allProduct
           src="/images/1. Comunidad Fungi/WEB Imagenes/Inicio/Hongo 4.webp"
           alt="Dispensario"
           fill
-          className="object-cover opacity-35"
+          className="object-cover opacity-60"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#4A1E0A]/60 via-[#4A1E0A]/45 to-[#4A1E0A]/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#4A1E0A]/40 via-[#4A1E0A]/25 to-[#4A1E0A]/65" />
         <div className="relative z-10">
           <p className="text-[#C8923A] text-xs font-medium tracking-[0.3em] uppercase mb-4">Dispensario Psylocibe</p>
           <h1 className="font-display text-5xl md:text-6xl font-bold mb-5">Nuestros productos</h1>

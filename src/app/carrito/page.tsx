@@ -24,10 +24,10 @@ export default function CarritoPage() {
     }
 
     try {
-      const res = await fetch('/api/flow/create-order', {
+      const res = await fetch('/api/flow/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items, total, email: data.user.email }),
+        body: JSON.stringify({ items, total, email: data.user.email, userId: data.user.id }),
       })
       const json = await res.json()
       if (json.url) {
@@ -125,7 +125,7 @@ export default function CarritoPage() {
             </button>
             <div className="flex items-center justify-center gap-1.5 mt-3">
               <ShieldCheck weight="fill" size={14} className="text-[#6B8F71]" />
-              <p className="text-xs text-[#7A3B1E]">Pago seguro · WebPay, tarjetas y transferencia</p>
+              <p className="text-xs text-[#7A3B1E]">Pago seguro · Tarjetas, débito y transferencia</p>
             </div>
           </div>
         </div>
