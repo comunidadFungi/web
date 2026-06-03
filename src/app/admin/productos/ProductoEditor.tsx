@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { saveProduct, deleteProduct } from './actions'
+import { createClient } from '@/lib/supabase'
 
 const CATEGORIES = ['Microdosis', 'Macrodosis', 'Aceites', 'Otros']
 
@@ -42,6 +41,7 @@ function toSlug(str: string) {
 
 export default function ProductoEditor({ initial }: { initial?: Producto }) {
   const router = useRouter()
+  const supabase = createClient()
   const isNew = !initial?.id
 
   const [form, setForm] = useState<Producto>(initial ?? {
@@ -52,23 +52,8 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
   })
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const fileRef = useRef<HTMLInputElement>(null)
-
-  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setUploading(true)
-    const data = new FormData()
-    data.append('file', file)
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: data })
-    const json = await res.json()
-    setUploading(false)
-    if (json.url) set('image', json.url)
-    else setError(json.error ?? 'Error al subir imagen')
-  }
 
   function set<K extends keyof Producto>(field: K, value: Producto[K]) {
     setForm(prev => {
@@ -103,7 +88,6 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
     setSuccess('')
 
     const payload = {
-      id: form.id,
       name: form.name,
       slug: form.slug,
       description: form.description,
@@ -117,11 +101,15 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
       active: form.active,
       features: form.features.split('\n').filter(Boolean),
       variants: form.variants,
+      updated_at: new Date().toISOString(),
     }
 
-    const result = await saveProduct(payload)
+    const { error: err } = isNew
+      ? await supabase.from('products').insert(payload)
+      : await supabase.from('products').update(payload).eq('id', form.id!)
+
     setSaving(false)
-    if (result.error) { setError(result.error); return }
+    if (err) { setError(err.message); return }
     setSuccess('Guardado correctamente.')
     setTimeout(() => router.push('/admin/productos'), 900)
   }
@@ -129,7 +117,7 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
   async function deleteProducto() {
     if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return
     setDeleting(true)
-    await deleteProduct(form.id!)
+    await supabase.from('products').delete().eq('id', form.id!)
     router.push('/admin/productos')
   }
 
@@ -212,42 +200,13 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
 
         {/* Imagen */}
         <div>
-          <label className="block text-sm font-semibold text-[#4A1E0A] mb-1.5">Imagen del producto</label>
-          <div
-            onClick={() => fileRef.current?.click()}
-            className="w-full border-2 border-dashed border-[#E8D5B5] rounded-xl p-5 cursor-pointer hover:border-[#C8923A] transition-colors bg-white text-center"
-          >
-            {form.image ? (
-              <div className="flex items-center gap-4">
-                <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#F5ECD7]">
-                  <Image src={form.image} alt="Preview" fill className="object-cover" />
-                </div>
-                <div className="text-left">
-                  <p className="text-sm font-medium text-[#4A1E0A]">Imagen cargada</p>
-                  <p className="text-xs text-[#7A3B1E] mt-0.5 break-all">{form.image.split('/').pop()}</p>
-                  <p className="text-xs text-[#C8923A] mt-1">Click para cambiar</p>
-                </div>
-              </div>
-            ) : (
-              <div className="py-4">
-                <p className="text-2xl mb-2">🖼️</p>
-                <p className="text-sm font-medium text-[#4A1E0A]">
-                  {uploading ? 'Subiendo imagen...' : 'Click para subir imagen'}
-                </p>
-                <p className="text-xs text-[#7A3B1E] mt-1">JPG, PNG o WEBP · Máx. 5 MB</p>
-              </div>
-            )}
-          </div>
+          <label className="block text-sm font-semibold text-[#4A1E0A] mb-1.5">URL imagen</label>
           <input
-            ref={fileRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            className="hidden"
-            onChange={handleImageUpload}
+            value={form.image}
+            onChange={e => set('image', e.target.value)}
+            placeholder="/images/productos/nombre.webp"
+            className="w-full border border-[#E8D5B5] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8923A] bg-white"
           />
-          {uploading && (
-            <p className="text-xs text-[#C8923A] mt-1.5 animate-pulse">Subiendo imagen...</p>
-          )}
         </div>
 
         {/* Descripción corta */}
