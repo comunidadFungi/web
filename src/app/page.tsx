@@ -7,6 +7,9 @@ import {
 import { products } from '@/lib/products'
 import HeroSlider from '@/components/HeroSlider'
 import RecetaModal from '@/components/RecetaModal'
+import { createClient } from '@/lib/supabase-server'
+
+export const dynamic = 'force-dynamic'
 
 const testimonials = [
   {
@@ -52,7 +55,14 @@ function Dots({ value }: { value: number }) {
   )
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  let isLoggedIn = false
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    isLoggedIn = !!user
+  } catch {}
+
   const microdosis = products.filter(p => p.category === 'Microdosis')
   const macrodosis = products.filter(p => p.category === 'Macrodosis')
 
@@ -249,7 +259,7 @@ export default function HomePage() {
                     <div className="flex flex-wrap gap-2">
                       {p.variants?.map(v => (
                         <span key={v.id} className="text-xs bg-[#F5ECD7] border border-[#C8923A]/30 text-[#4A1E0A] px-3 py-1 rounded-full">
-                          {v.label} — ${v.price.toLocaleString('es-CL')}
+                          {isLoggedIn ? `${v.label} — $${v.price.toLocaleString('es-CL')}` : v.label}
                         </span>
                       ))}
                     </div>
@@ -282,9 +292,19 @@ export default function HomePage() {
                       {p.name.replace('Hongos Secos — ', '')}
                     </h4>
                     <p className="text-[#7A3B1E] text-xs mb-3 line-clamp-2">{p.description}</p>
-                    <p className="text-[#C8923A] font-bold text-sm">
-                      Desde ${p.variants?.[0].price.toLocaleString('es-CL')}
-                    </p>
+                    {isLoggedIn ? (
+                      <p className="text-[#C8923A] font-bold text-sm">
+                        Desde ${p.variants?.[0].price.toLocaleString('es-CL')}
+                      </p>
+                    ) : (
+                      <Link
+                        href="/registro"
+                        onClick={undefined}
+                        className="text-xs bg-[#4A1E0A] text-[#F5ECD7] px-3 py-1.5 rounded-full hover:bg-[#7A3B1E] transition-colors inline-block"
+                      >
+                        Regístrate para ver precio
+                      </Link>
+                    )}
                   </div>
                 </Link>
               ))}
