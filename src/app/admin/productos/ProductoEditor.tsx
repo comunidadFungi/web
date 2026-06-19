@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase'
+import { saveProduct, deleteProduct } from './actions'
 
 const CATEGORIES = ['Microdosis', 'Macrodosis', 'Aceites', 'Otros']
 
@@ -42,7 +42,6 @@ function toSlug(str: string) {
 
 export default function ProductoEditor({ initial }: { initial?: Producto }) {
   const router = useRouter()
-  const supabase = createClient()
   const isNew = !initial?.id
 
   const [form, setForm] = useState<Producto>(initial ?? {
@@ -103,7 +102,8 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
     setError('')
     setSuccess('')
 
-    const payload = {
+    const result = await saveProduct({
+      id: form.id,
       name: form.name,
       slug: form.slug,
       description: form.description,
@@ -117,15 +117,10 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
       active: form.active,
       features: form.features.split('\n').filter(Boolean),
       variants: form.variants,
-      updated_at: new Date().toISOString(),
-    }
-
-    const { error: err } = isNew
-      ? await supabase.from('products').insert(payload)
-      : await supabase.from('products').update(payload).eq('id', form.id!)
+    })
 
     setSaving(false)
-    if (err) { setError(err.message); return }
+    if (result.error) { setError(result.error); return }
     setSuccess('Guardado correctamente.')
     setTimeout(() => router.push('/admin/productos'), 900)
   }
@@ -133,7 +128,8 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
   async function deleteProducto() {
     if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return
     setDeleting(true)
-    await supabase.from('products').delete().eq('id', form.id!)
+    const result = await deleteProduct(form.id!)
+    if (result.error) { setError(result.error); setDeleting(false); return }
     router.push('/admin/productos')
   }
 
