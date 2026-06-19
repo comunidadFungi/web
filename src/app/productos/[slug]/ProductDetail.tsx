@@ -19,7 +19,7 @@ function Dots({ value }: { value: number }) {
   )
 }
 
-export default function ProductDetail({ product }: { product: Product }) {
+export default function ProductDetail({ product, isLoggedIn }: { product: Product; isLoggedIn: boolean }) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
     product.variants?.[0] ?? null
@@ -125,9 +125,18 @@ export default function ProductDetail({ product }: { product: Product }) {
 
           {/* Precio */}
           <div className="flex items-baseline gap-3 mb-5">
-            <span className="text-4xl font-bold text-[#C4513A]">
-              ${displayPrice.toLocaleString('es-CL')}
-            </span>
+            {isLoggedIn ? (
+              <span className="text-4xl font-bold text-[#C4513A]">
+                ${displayPrice.toLocaleString('es-CL')}
+              </span>
+            ) : (
+              <Link
+                href="/registro"
+                className="text-sm bg-[#4A1E0A] text-[#F5ECD7] px-4 py-2 rounded-full hover:bg-[#7A3B1E] transition-colors"
+              >
+                Regístrate para ver el precio
+              </Link>
+            )}
           </div>
 
           {/* Descripción */}
@@ -173,22 +182,26 @@ export default function ProductDetail({ product }: { product: Product }) {
           })()}
 
           {/* CTA — Agregar al carrito */}
-          <button
-            onClick={handleAddToCart}
-            className="w-full flex items-center justify-center gap-3 bg-[#C4513A] text-white py-4 rounded-xl font-medium text-lg hover:bg-[#A83D28] transition-colors shadow-md mb-3"
-          >
-            {added
-              ? <><CheckCircle weight="fill" size={24} /> Agregado al carrito</>
-              : <><ShoppingCartSimple weight="fill" size={24} /> Agregar al carrito</>
-            }
-          </button>
-          {added && (
-            <Link
-              href="/carrito"
-              className="w-full flex items-center justify-center text-sm text-[#C4513A] font-medium hover:underline"
-            >
-              Ver carrito →
-            </Link>
+          {isLoggedIn && (
+            <>
+              <button
+                onClick={handleAddToCart}
+                className="w-full flex items-center justify-center gap-3 bg-[#C4513A] text-white py-4 rounded-xl font-medium text-lg hover:bg-[#A83D28] transition-colors shadow-md mb-3"
+              >
+                {added
+                  ? <><CheckCircle weight="fill" size={24} /> Agregado al carrito</>
+                  : <><ShoppingCartSimple weight="fill" size={24} /> Agregar al carrito</>
+                }
+              </button>
+              {added && (
+                <Link
+                  href="/carrito"
+                  className="w-full flex items-center justify-center text-sm text-[#C4513A] font-medium hover:underline"
+                >
+                  Ver carrito →
+                </Link>
+              )}
+            </>
           )}
           <a
             href={waUrl}

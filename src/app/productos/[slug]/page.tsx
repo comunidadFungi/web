@@ -60,5 +60,5 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   // Bloquear productos de miembros a usuarios no autenticados
   if (data.access === 'members' && !isLoggedIn) notFound()
 
-  return <ProductDetail product={mapProduct(data)} />
+  return <ProductDetail product={mapProduct(data)} isLoggedIn={isLoggedIn} />
 }
