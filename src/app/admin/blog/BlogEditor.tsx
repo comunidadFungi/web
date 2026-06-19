@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase'
 
 const CATEGORIES = ['Ciencia y Salud', 'Protocolos', 'Macrodosis', 'Cuidado Personal', 'General']
@@ -38,8 +39,23 @@ export default function BlogEditor({ initial }: { initial?: Post }) {
   })
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    const data = new FormData()
+    data.append('file', file)
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: data })
+    const json = await res.json()
+    setUploading(false)
+    if (json.url) set('cover_image', json.url)
+    else setError(json.error ?? 'Error al subir imagen')
+  }
 
   function set(field: keyof Post, value: string | boolean) {
     setForm(prev => {
@@ -116,13 +132,33 @@ export default function BlogEditor({ initial }: { initial?: Post }) {
 
         {/* Imagen de portada */}
         <div>
-          <label className="block text-sm font-semibold text-[#4A1E0A] mb-1.5">URL imagen de portada</label>
-          <input
-            value={form.cover_image}
-            onChange={e => set('cover_image', e.target.value)}
-            placeholder="https://... o /images/..."
-            className="w-full border border-[#E8D5B5] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8923A] bg-white"
-          />
+          <label className="block text-sm font-semibold text-[#4A1E0A] mb-1.5">Imagen de portada</label>
+          <div
+            onClick={() => fileRef.current?.click()}
+            className="w-full border-2 border-dashed border-[#E8D5B5] rounded-xl p-5 cursor-pointer hover:border-[#C8923A] transition-colors bg-white text-center"
+          >
+            {form.cover_image ? (
+              <div className="flex items-center gap-4">
+                <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-[#F5ECD7]">
+                  <Image src={form.cover_image} alt="Portada" fill className="object-cover" />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-medium text-[#4A1E0A]">Imagen cargada</p>
+                  <p className="text-xs text-[#C8923A] mt-1">Click para cambiar</p>
+                </div>
+              </div>
+            ) : (
+              <div className="py-4">
+                <p className="text-2xl mb-2">🖼️</p>
+                <p className="text-sm font-medium text-[#4A1E0A]">
+                  {uploading ? 'Subiendo...' : 'Click para subir imagen'}
+                </p>
+                <p className="text-xs text-[#7A3B1E] mt-1">JPG, PNG o WEBP · Máx. 5 MB</p>
+              </div>
+            )}
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+          {uploading && <p className="text-xs text-[#C8923A] mt-1.5 animate-pulse">Subiendo imagen...</p>}
         </div>
 
         {/* Extracto */}
