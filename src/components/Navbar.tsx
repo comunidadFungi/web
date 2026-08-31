@@ -62,7 +62,11 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <Link href="/carrito" className="relative p-2 hover:text-[#C8923A] transition-colors">
+          <Link
+            href="/carrito"
+            aria-label="Ver carrito"
+            className="relative flex items-center justify-center w-11 h-11 hover:text-[#C8923A] transition-colors"
+          >
             <Basket weight="fill" size={24} />
             {count > 0 && (
               <span className="absolute -top-1 -right-1 bg-[#C4513A] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
@@ -93,7 +97,12 @@ export default function Navbar() {
             </div>
           )}
 
-          <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>
+          <button
+            className="md:hidden flex items-center justify-center w-11 h-11 -mr-2 rounded-lg hover:bg-white/10 transition-colors"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+          >
             {menuOpen ? <X weight="bold" size={22} /> : <List weight="bold" size={22} />}
           </button>
         </div>
@@ -102,35 +111,35 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden bg-[#3A1506] px-4 pb-4 flex flex-col gap-3">
-          <Link href="/" className="flex items-center gap-2 py-2 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
+          <Link href="/" className="flex items-center gap-2 py-3 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
             <House weight="fill" size={16} />Inicio
           </Link>
-          <Link href="/productos" className="flex items-center gap-2 py-2 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
+          <Link href="/productos" className="flex items-center gap-2 py-3 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
             <Storefront weight="fill" size={16} />Productos
           </Link>
-          <Link href="/comunidad-medica" className="flex items-center gap-2 py-2 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
+          <Link href="/comunidad-medica" className="flex items-center gap-2 py-3 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
             <Users weight="fill" size={16} />Consultas médicas
           </Link>
-          <Link href="/blog" className="flex items-center gap-2 py-2 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
+          <Link href="/blog" className="flex items-center gap-2 py-3 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
             <Article weight="fill" size={16} />Blog
           </Link>
-          <Link href="/legalidad" className="flex items-center gap-2 py-2 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
+          <Link href="/legalidad" className="flex items-center gap-2 py-3 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
             <Scales weight="fill" size={16} />Legalidad
           </Link>
-          <Link href="/contacto" className="flex items-center gap-2 py-2 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
+          <Link href="/contacto" className="flex items-center gap-2 py-3 border-b border-[#7A3B1E] hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>
             <ChatCircle weight="fill" size={16} />Contacto
           </Link>
           {user ? (
             <>
               <span className="text-xs text-[#C8923A]">{user.email}</span>
-              <button onClick={handleLogout} className="flex items-center gap-2 text-left py-2 hover:text-[#C8923A]">
+              <button onClick={handleLogout} className="flex items-center gap-2 text-left py-3 hover:text-[#C8923A]">
                 <SignOut weight="bold" size={16} />Cerrar sesión
               </button>
             </>
           ) : (
             <>
-              <Link href="/login" className="py-2 hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>Ingresar</Link>
-              <Link href="/registro" className="py-2 hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>Registrarse</Link>
+              <Link href="/login" className="py-3 hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>Ingresar</Link>
+              <Link href="/registro" className="py-3 hover:text-[#C8923A]" onClick={() => setMenuOpen(false)}>Registrarse</Link>
             </>
           )}
         </div>

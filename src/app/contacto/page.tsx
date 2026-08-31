@@ -76,7 +76,7 @@ export default function ContactoPage() {
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#C4513A] text-sm hover:underline"
+                  className="inline-flex items-center min-h-[2.75rem] text-[#C4513A] text-sm hover:underline"
                 >
                   +56 9 4054 7049
                 </a>
@@ -89,7 +89,7 @@ export default function ContactoPage() {
               </div>
               <div>
                 <p className="font-semibold text-[#4A1E0A]">Email</p>
-                <a href="mailto:hola@comunidadfungi.com" className="text-[#C4513A] text-sm hover:underline">
+                <a href="mailto:hola@comunidadfungi.com" className="inline-flex items-center min-h-[2.75rem] text-[#C4513A] text-sm hover:underline">
                   hola@comunidadfungi.com
                 </a>
               </div>
@@ -130,7 +130,7 @@ export default function ContactoPage() {
               <p className="text-[#7A3B1E] mb-6">Te redirigimos a WhatsApp para completar tu consulta.</p>
               <button
                 onClick={() => setEnviado(false)}
-                className="text-[#C4513A] text-sm hover:underline"
+                className="inline-flex items-center min-h-[2.75rem] text-[#C4513A] text-sm hover:underline"
               >
                 Enviar otro mensaje
               </button>

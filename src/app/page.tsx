@@ -209,7 +209,7 @@ export default async function HomePage() {
                 ))}
               </div>
 
-              <Link href="/legalidad" className="inline-flex items-center gap-2 text-[#C8923A] font-medium hover:underline text-sm">
+              <Link href="/legalidad" className="inline-flex items-center min-h-[2.75rem] gap-2 text-[#C8923A] font-medium hover:underline text-sm">
                 Conoce nuestro marco legal <ArrowRight weight="bold" size={16} />
               </Link>
             </div>
@@ -303,7 +303,7 @@ export default async function HomePage() {
                     ) : (
                       <Link
                         href="/registro"
-                        className="relative z-30 text-xs bg-[#4A1E0A] text-[#F5ECD7] px-3 py-1.5 rounded-full hover:bg-[#7A3B1E] transition-colors inline-block"
+                        className="relative z-30 inline-flex items-center min-h-[2.75rem] text-xs bg-[#4A1E0A] text-[#F5ECD7] px-4 rounded-full hover:bg-[#7A3B1E] transition-colors"
                       >
                         Regístrate para ver precio
                       </Link>

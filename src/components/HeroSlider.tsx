@@ -46,19 +46,28 @@ export default function HeroSlider() {
         />
       ))}
 
-      {/* Dots */}
-      <div className="absolute bottom-28 left-0 right-0 flex justify-center gap-2 z-20">
+      {/*
+        El punto sigue midiendo 8 px, pero el botón que lo contiene ocupa 44,
+        que es el mínimo cómodo para el pulgar. Antes el área táctil era el
+        propio punto y resultaba casi imposible de acertar en el teléfono.
+      */}
+      <div className="absolute bottom-24 left-0 right-0 flex justify-center z-20">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => { setFading(false); setCurrent(i) }}
-            className="w-2 h-2 rounded-full transition-all"
-            style={{
-              backgroundColor: i === current ? '#C8923A' : 'rgba(255,255,255,0.5)',
-              transform: i === current ? 'scale(1.4)' : 'scale(1)',
-            }}
+            className="w-11 h-11 flex items-center justify-center group"
             aria-label={`Ir a imagen ${i + 1}`}
-          />
+            aria-current={i === current ? 'true' : undefined}
+          >
+            <span
+              className="w-2 h-2 rounded-full transition-all group-hover:scale-125"
+              style={{
+                backgroundColor: i === current ? '#C8923A' : 'rgba(255,255,255,0.5)',
+                transform: i === current ? 'scale(1.4)' : 'scale(1)',
+              }}
+            />
+          </button>
         ))}
       </div>
     </>

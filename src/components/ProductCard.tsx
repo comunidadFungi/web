@@ -81,7 +81,7 @@ export default function ProductCard({ product, isLoggedIn }: Props) {
           ) : (
             <Link
               href="/registro"
-              className="relative z-30 text-xs bg-[#4A1E0A] text-[#F5ECD7] px-3 py-1.5 rounded-full hover:bg-[#7A3B1E] transition-colors"
+              className="relative z-30 inline-flex items-center min-h-[2.75rem] text-xs bg-[#4A1E0A] text-[#F5ECD7] px-4 rounded-full hover:bg-[#7A3B1E] transition-colors"
             >
               Regístrate para ver precio
             </Link>

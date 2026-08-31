@@ -60,7 +60,8 @@ export default function ProductsClient({ allProducts, isLoggedIn }: { allProduct
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
+              aria-pressed={filter === cat}
+              className={`inline-flex items-center min-h-[2.75rem] px-5 rounded-full text-sm font-medium transition-colors ${
                 filter === cat
                   ? 'bg-[#4A1E0A] text-[#F5ECD7]'
                   : 'bg-white text-[#4A1E0A] border border-[#E8D5B5] hover:border-[#4A1E0A]'

@@ -28,7 +28,8 @@ export default function RecetaModal() {
       <div className="relative bg-[#F5ECD7] rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
         <button
           onClick={close}
-          className="absolute top-4 right-4 text-[#7A3B1E] hover:text-[#4A1E0A] transition-colors"
+          aria-label="Cerrar aviso"
+          className="absolute top-2 right-2 flex items-center justify-center w-11 h-11 rounded-full text-[#7A3B1E] hover:text-[#4A1E0A] hover:bg-[#E8D5B5] transition-colors"
         >
           <X weight="bold" size={22} />
         </button>

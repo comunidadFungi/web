@@ -16,35 +16,35 @@ export default function Footer() {
             Todos nuestros productos son dispensados a pedido con receta médica válida. Operamos bajo el marco legal vigente.
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-5">
-            <a href="https://instagram.com/comunidadfungi" target="_blank" rel="noopener noreferrer" className="text-[#C8923A] hover:text-[#F5ECD7] transition-colors text-sm">
+            <a href="https://instagram.com/comunidadfungi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[2.75rem] text-[#C8923A] hover:text-[#F5ECD7] transition-colors text-sm">
               @comunidadfungi
             </a>
             <span className="text-[#F5ECD7]/40">·</span>
-            <a href="mailto:hola@comunidadfungi.com" className="text-[#C8923A] hover:text-[#F5ECD7] transition-colors text-sm">
+            <a href="mailto:hola@comunidadfungi.com" className="inline-flex items-center min-h-[2.75rem] text-[#C8923A] hover:text-[#F5ECD7] transition-colors text-sm">
               hola@comunidadfungi.com
             </a>
             <span className="text-[#F5ECD7]/40">·</span>
-            <a href="https://wa.me/56940547049" target="_blank" rel="noopener noreferrer" className="text-[#C8923A] hover:text-[#F5ECD7] transition-colors text-sm">
+            <a href="https://wa.me/56940547049" target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-[2.75rem] text-[#C8923A] hover:text-[#F5ECD7] transition-colors text-sm">
               +56 9 4054 7049
             </a>
           </div>
         </div>
         <div>
           <h4 className="font-bold mb-4 text-[#C8923A]">Dispensario</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="/productos" className="hover:text-[#C8923A] transition-colors">Todos los productos</Link></li>
-            <li><Link href="/productos?categoria=Microdosis" className="hover:text-[#C8923A] transition-colors">Microdosis</Link></li>
-            <li><Link href="/productos?categoria=Macrodosis" className="hover:text-[#C8923A] transition-colors">Macrodosis</Link></li>
+          <ul className="text-sm">
+            <li><Link href="/productos" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Todos los productos</Link></li>
+            <li><Link href="/productos?categoria=Microdosis" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Microdosis</Link></li>
+            <li><Link href="/productos?categoria=Macrodosis" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Macrodosis</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="font-bold mb-4 text-[#C8923A]">Comunidad</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="/comunidad-medica" className="hover:text-[#C8923A] transition-colors">Comunidad médica</Link></li>
-            <li><Link href="/blog" className="hover:text-[#C8923A] transition-colors">Blog</Link></li>
-            <li><Link href="/legalidad" className="hover:text-[#C8923A] transition-colors">Legalidad</Link></li>
-            <li><Link href="/terminos" className="hover:text-[#C8923A] transition-colors">Términos y condiciones</Link></li>
-            <li><Link href="/contacto" className="hover:text-[#C8923A] transition-colors">Contacto</Link></li>
+          <ul className="text-sm">
+            <li><Link href="/comunidad-medica" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Comunidad médica</Link></li>
+            <li><Link href="/blog" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Blog</Link></li>
+            <li><Link href="/legalidad" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Legalidad</Link></li>
+            <li><Link href="/terminos" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Términos y condiciones</Link></li>
+            <li><Link href="/contacto" className="inline-flex items-center min-h-[2.75rem] hover:text-[#C8923A] transition-colors">Contacto</Link></li>
           </ul>
           <p className="text-xs mt-6 text-[#F5ECD7]/70">
             © {new Date().getFullYear()} Comunidad Fungi · Chile
