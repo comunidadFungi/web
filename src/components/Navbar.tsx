@@ -6,7 +6,7 @@ import { Basket, List, X, SignOut, Storefront, House, Users, ChatCircle, Article
 import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
 import { createClient } from '@/lib/supabase'
-import type { User as SupabaseUser } from '@supabase/supabase-js'
+import type { Session, User as SupabaseUser } from '@supabase/supabase-js'
 
 export default function Navbar() {
   const { count } = useCart()
@@ -15,11 +15,14 @@ export default function Navbar() {
   const supabase = createClient()
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }: any) => setUser(data.user))
-    const { data: listener } = supabase.auth.onAuthStateChange((_e: any, session: any) => {
-      setUser(session?.user ?? null)
-    })
+    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event: string, session: Session | null) => setUser(session?.user ?? null),
+    )
     return () => listener.subscription.unsubscribe()
+    // `supabase.auth` es estable entre renders; añadirlo reabriría la
+    // suscripción en cada uno.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   async function handleLogout() {

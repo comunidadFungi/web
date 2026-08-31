@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  Shield, Users, Heartbeat, ArrowRight, Flask, Star,
+  Shield, Heartbeat, ArrowRight, Flask, Star,
   Brain, Globe, BookOpen, Atom, Stethoscope, ShieldCheck,
 } from '@phosphor-icons/react/dist/ssr'
 import { products } from '@/lib/products'
@@ -278,11 +278,15 @@ export default async function HomePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {macrodosis.map(p => (
-                <Link
+                <div
                   key={p.id}
-                  href={`/productos/${p.slug}`}
-                  className="card-lift bg-white rounded-2xl border border-[#E8D5B5] overflow-hidden group"
+                  className="card-lift relative bg-white rounded-2xl border border-[#E8D5B5] overflow-hidden group"
                 >
+                  <Link
+                    href={`/productos/${p.slug}`}
+                    aria-label={`Ver ${p.name}`}
+                    className="absolute inset-0 z-20"
+                  />
                   <div className="relative aspect-square bg-[#F5ECD7]">
                     <Image src={p.image} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -299,14 +303,13 @@ export default async function HomePage() {
                     ) : (
                       <Link
                         href="/registro"
-                        onClick={undefined}
-                        className="text-xs bg-[#4A1E0A] text-[#F5ECD7] px-3 py-1.5 rounded-full hover:bg-[#7A3B1E] transition-colors inline-block"
+                        className="relative z-30 text-xs bg-[#4A1E0A] text-[#F5ECD7] px-3 py-1.5 rounded-full hover:bg-[#7A3B1E] transition-colors inline-block"
                       >
                         Regístrate para ver precio
                       </Link>
                     )}
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -382,7 +385,9 @@ export default async function HomePage() {
                     <Star key={j} weight="fill" size={16} className="text-[#C8923A]" />
                   ))}
                 </div>
-                <p className="text-[#7A3B1E] text-sm leading-relaxed flex-1 mb-6 italic">"{t.texto}"</p>
+                <p className="text-[#7A3B1E] text-sm leading-relaxed flex-1 mb-6 italic">
+                  «{t.texto}»
+                </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4A1E0A] to-[#7A3B1E] flex items-center justify-center text-[#C8923A] font-bold text-sm shrink-0">
                     {t.nombre[0]}

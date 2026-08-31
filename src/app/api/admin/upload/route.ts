@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase-admin'
-import { createClient } from '@/lib/supabase-server'
+import { requireAdmin } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
-  // Verificar que es el admin
-  const supabaseServer = await createClient()
-  const { data: { user } } = await supabaseServer.auth.getUser()
-  if (!user || user.email !== process.env.ADMIN_EMAIL) {
+  if (!(await requireAdmin())) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
   }
 

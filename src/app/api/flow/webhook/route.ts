@@ -15,14 +15,35 @@ export async function POST(req: NextRequest) {
     const token = form.get('token') as string
     if (!token) return NextResponse.json({ ok: true })
 
+    // El estado se consulta a Flow con la clave firmada: nunca se toma del
+    // cuerpo de la petición, así que un POST falso no puede marcar un pedido
+    // como pagado.
     const payment = await getPaymentStatus(token)
-    const status = STATUS_MAP[payment.status] ?? 'pending'
+    let status = STATUS_MAP[payment.status] ?? 'pending'
 
     const supabase = createAdminClient()
+    const { data: order } = await supabase
+      .from('orders')
+      .select('id, total')
+      .eq('external_reference', payment.commerceOrder)
+      .maybeSingle()
+
+    if (!order) return NextResponse.json({ ok: true })
+
+    // Defensa en profundidad: un pago por menos de lo pedido no completa la
+    // orden, queda para revisión manual.
+    if (status === 'completed' && Number(payment.amount) < Number(order.total)) {
+      console.error(
+        `Flow webhook: pago insuficiente en ${payment.commerceOrder} — ` +
+        `recibido ${payment.amount}, esperado ${order.total}`,
+      )
+      status = 'pending'
+    }
+
     await supabase
       .from('orders')
       .update({ status, updated_at: new Date().toISOString() })
-      .eq('external_reference', payment.commerceOrder)
+      .eq('id', order.id)
 
     return NextResponse.json({ ok: true })
   } catch (err) {

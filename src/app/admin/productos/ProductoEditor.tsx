@@ -120,7 +120,7 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
     })
 
     setSaving(false)
-    if (result.error) { setError(result.error); return }
+    if ('error' in result) { setError(result.error); return }
     setSuccess('Guardado correctamente.')
     setTimeout(() => router.push('/admin/productos'), 900)
   }
@@ -129,7 +129,7 @@ export default function ProductoEditor({ initial }: { initial?: Producto }) {
     if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return
     setDeleting(true)
     const result = await deleteProduct(form.id!)
-    if (result.error) { setError(result.error); setDeleting(false); return }
+    if ('error' in result) { setError(result.error); setDeleting(false); return }
     router.push('/admin/productos')
   }
 

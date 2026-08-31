@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase-server'
-import OrderStatusSelect from './OrderStatusSelect'
 
 const STATUS_LABELS: Record<string, string> = {
   pending: 'Pendiente',

@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ViewTransition } from "react";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import { CartProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
@@ -14,8 +15,17 @@ export const metadata: Metadata = {
       { url: "/logo.jpeg", type: "image/jpeg" },
     ],
     shortcut: "/logo.jpeg",
-    apple: "/logo.jpeg",
+    apple: "/apple-icon.png",
   },
+  appleWebApp: {
+    capable: true,
+    title: "Fungi",
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#4A1E0A",
 };
 
 export default function RootLayout({
@@ -33,6 +43,7 @@ export default function RootLayout({
           </ViewTransition>
           <Footer />
           <WhatsAppButton />
+          <ServiceWorkerRegister />
         </CartProvider>
       </body>
     </html>

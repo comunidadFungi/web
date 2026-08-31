@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Configuración local de Claude Code (launch.json sí se comparte)
+.claude/settings.local.json
+
+# Estado temporal de la CLI de Supabase
+supabase/.temp/

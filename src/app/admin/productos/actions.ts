@@ -1,6 +1,7 @@
 'use server'
 
 import { createAdminClient } from '@/lib/supabase-admin'
+import { requireAdmin } from '@/lib/auth'
 
 interface Variant { id: string; label: string; price: number }
 
@@ -12,7 +13,13 @@ interface ProductPayload {
   features: string[]; variants: Variant[]
 }
 
-export async function saveProduct(payload: ProductPayload) {
+type Result = { ok: true } | { error: string }
+
+export async function saveProduct(payload: ProductPayload): Promise<Result> {
+  // Una Server Action es un endpoint HTTP público: el guardia del layout de
+  // /admin no la protege, y esta función usa la service role key.
+  if (!(await requireAdmin())) return { error: 'No autorizado' }
+
   const supabase = createAdminClient()
   const { id, ...data } = payload
   const body = { ...data, updated_at: new Date().toISOString() }
@@ -25,7 +32,9 @@ export async function saveProduct(payload: ProductPayload) {
   return { ok: true }
 }
 
-export async function deleteProduct(id: string) {
+export async function deleteProduct(id: string): Promise<Result> {
+  if (!(await requireAdmin())) return { error: 'No autorizado' }
+
   const supabase = createAdminClient()
   const { error } = await supabase.from('products').delete().eq('id', id)
   if (error) return { error: error.message }

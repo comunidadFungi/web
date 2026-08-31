@@ -24,17 +24,21 @@ export default function CarritoPage() {
     }
 
     try {
+      // Solo se envían referencias y cantidades: el precio y la identidad los
+      // resuelve el servidor.
       const res = await fetch('/api/flow/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items, total, email: data.user.email, userId: data.user.id }),
+        body: JSON.stringify({
+          items: items.map(i => ({ id: i.id, quantity: i.quantity })),
+        }),
       })
       const json = await res.json()
       if (json.url) {
         clearCart()
         window.location.href = json.url
       } else {
-        alert('Error al iniciar el pago. Intenta de nuevo.')
+        alert(json.error ?? 'Error al iniciar el pago. Intenta de nuevo.')
       }
     } catch {
       alert('Error de conexión. Intenta de nuevo.')

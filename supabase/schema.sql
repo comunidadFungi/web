@@ -50,29 +50,46 @@ create table if not exists user_documents (
   updated_at       timestamptz default now()
 );
 
--- RLS: blog_posts — lectura pública de publicados, escritura solo autenticados
+-- ============================================================
+-- Row Level Security
+--
+-- ATENCIÓN: las políticas de administrador se acotan al correo de la cuenta
+-- responsable. NO usar `auth.role() = 'authenticated'`: el registro del sitio
+-- es abierto, así que eso daría a cualquier visitante que cree una cuenta
+-- acceso completo a los pedidos de todos y a user_documents, que guarda cédula
+-- de identidad y recetas médicas. Una versión anterior de este archivo lo hacía,
+-- y como las políticas se acumulan, volver a ejecutarlo reabría el acceso.
+-- ============================================================
+
+-- El correo debe coincidir con la variable de entorno ADMIN_EMAIL.
+-- Si cambia, hay que actualizar las tres políticas de abajo.
+
+-- blog_posts — lectura pública de publicados, gestión solo del admin
 alter table blog_posts enable row level security;
 drop policy if exists "Public read published" on blog_posts;
 drop policy if exists "Auth full access" on blog_posts;
+drop policy if exists "Admin full access" on blog_posts;
 create policy "Public read published" on blog_posts
   for select using (published = true);
-create policy "Auth full access" on blog_posts
-  for all using (auth.role() = 'authenticated');
+create policy "Admin full access" on blog_posts
+  for all using ((auth.jwt() ->> 'email') = 'carolina@comunidadfungi.com');
 
--- RLS: orders — cada usuario ve sus propios pedidos, admin ve todos
+-- orders — cada usuario ve sus propios pedidos, el admin ve todos
 alter table orders enable row level security;
 drop policy if exists "User sees own orders" on orders;
 drop policy if exists "Auth full access orders" on orders;
+drop policy if exists "Admin full access" on orders;
 create policy "User sees own orders" on orders
   for select using (auth.uid() = user_id);
-create policy "Auth full access orders" on orders
-  for all using (auth.role() = 'authenticated');
+create policy "Admin full access" on orders
+  for all using ((auth.jwt() ->> 'email') = 'carolina@comunidadfungi.com');
 
--- RLS: user_documents — cada usuario gestiona los suyos
+-- user_documents — cada usuario gestiona los suyos, el admin los revisa
 alter table user_documents enable row level security;
 drop policy if exists "User manages own docs" on user_documents;
 drop policy if exists "Auth full access docs" on user_documents;
+drop policy if exists "Admin full access" on user_documents;
 create policy "User manages own docs" on user_documents
   for all using (auth.uid() = user_id);
-create policy "Auth full access docs" on user_documents
-  for all using (auth.role() = 'authenticated');
+create policy "Admin full access" on user_documents
+  for all using ((auth.jwt() ->> 'email') = 'carolina@comunidadfungi.com');
